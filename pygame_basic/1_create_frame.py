@@ -40,6 +40,15 @@ enemy_height = enemy_size[1]
 enemy_x_pos = (screen_width / 2) - enemy_width/2
 enemy_y_pos = (screen_height / 2) - enemy_height/2
 
+
+# 폰트 정의 
+game_font = pygame.font.Font(None,40) # 폰트 객체 생성 (폰트, 크기)
+
+# 총 시간 
+total_time = 10
+
+# 시작 시간 계산
+start_ticks = pygame.time.get_ticks() #시작 tick 을 받아옴 
 # event loop
 running = True
 while running:
@@ -99,7 +108,23 @@ while running:
     screen.blit(character, (character_x_pos,character_y_pos)) # 캐릭터 그리기
     screen.blit(enemy, (enemy_x_pos,enemy_y_pos))
 
+    # 타이머
+    # 경과 시간 계산
+    elapsed_time = (pygame.time.get_ticks() - start_ticks) / 1000 # ms단위
+    
+    timer = game_font.render(str(int(total_time - elapsed_time)), True, (255,255,255))
+
+    screen.blit(timer,(10,10))
+
+    if total_time - elapsed_time <=0:
+        print("타임 아웃")
+        running = False
+
     pygame.display.update() # 배경 다시 그리기(반복)
+
+
+pygame.time.delay(2000) # 종료 후 대기
+
 pygame.quit()
 
 
