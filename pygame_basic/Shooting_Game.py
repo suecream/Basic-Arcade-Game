@@ -44,7 +44,7 @@ e_to_x = 0
 b_to_y = 0
 b_to_x = 0
 character_speed = 0.5
-enemy_speed = 0.5
+enemy_speed = 0.1
 bullet_speed = 1
 
 running = True
@@ -71,7 +71,8 @@ while running:
 
     character_y_pos = character_y_pos + c_to_y
     bullet_y_pos = bullet_y_pos + b_to_y
-
+    enemy_1_x_pos = enemy_1_x_pos - enemy_speed
+    enemy_2_x_pos = enemy_2_x_pos - enemy_speed
     if character_y_pos < 0:
         character_y_pos = 0
         bullet_y_pos = (character_height/2) - (bullet_height/2)
