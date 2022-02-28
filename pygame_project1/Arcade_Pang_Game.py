@@ -43,6 +43,29 @@ weapon_width = weapon_size[0]
 weapons = [] # 한번에 여러발 가능
 weapon_speed = 10
 
+# ball
+ball_images = [
+    pygame.image.load(os.path.join(image_path, "balloon1.png")), 
+    pygame.image.load(os.path.join(image_path, "balloon2.png")),
+    pygame.image.load(os.path.join(image_path, "balloon3.png")),
+    pygame.image.load(os.path.join(image_path, "balloon4.png")) 
+]
+
+# ball 크기에 따른 최초 speed
+ball_speed_y = [-18, -15, -12, -9]
+
+balls = []
+
+# 최초 발생 ball set
+balls.append({
+    "pos_x" : 50,
+    "pos_y" : 50, # ball 시작 위치
+    "image_idx" : 0, # ball index
+    "to_x" : 3, 
+    "to_y" : -6, # 시작 시 이동방향
+    "init_spe_y" : ball_speed_y[0] # y 최초 속도
+
+})
 
 running = True
 while running:
