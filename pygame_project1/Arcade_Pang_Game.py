@@ -161,7 +161,36 @@ while running:
             if weapon_rect.colliderect(ball_rect):
                 weapon_to_remove = weapon_idx # 해당 무기 없애기 위한 값
                 ball_to_remove = ball_idx
-                break
+
+                if ball_img_idx < 3: # 가장작은공이 아니면 쪼개기
+                    # 현재 공 크기 정보
+                    ball_width = ball_rect.size[0]
+                    ball_height = ball_rect.size[1]
+
+                    # 나눠진 공 정보
+                    small_ball_rect = ball_images[ball_img_idx + 1].get_rect()
+                    small_ball_width = small_ball_rect.size[0]
+                    small_ball_height = small_ball_rect.size[1]   
+
+                    # 왼쪽 튕기는 공
+                    balls.append({
+                        "pos_x" : ball_pos_x + (ball_width / 2) - (small_ball_width / 2),
+                        "pos_y" : ball_pos_y + (ball_height / 2) - (small_ball_height / 2), # ball 시작 위치
+                        "img_idx" : ball_img_idx + 1, # ball index
+                        "to_x" : -3, 
+                        "to_y" : -6, # 시작 시 이동방향
+                        "init_spe_y" : ball_speed_y[ball_img_idx + 1] # y 최초 속도
+                    })
+                    # 오른쪽 튕기는 공
+                    balls.append({
+                        "pos_x" : ball_pos_x + (ball_width / 2) - (small_ball_width / 2),
+                        "pos_y" : ball_pos_y + (ball_height / 2) - (small_ball_height / 2), # ball 시작 위치
+                        "img_idx" : ball_img_idx + 1, # ball index
+                        "to_x" : 3, 
+                        "to_y" : -6, # 시작 시 이동방향
+                        "init_spe_y" : ball_speed_y[ball_img_idx + 1] # y 최초 속도
+                    })
+                break 
 
     # 충돌된 공 or 무기 없애기
     if ball_to_remove > -1:
