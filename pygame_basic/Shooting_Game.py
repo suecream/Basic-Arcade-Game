@@ -1,8 +1,12 @@
 from re import T
+import os 
 import pygame
 import random
 
 pygame.init()
+
+current_path = os.path.dirname(__file__)
+image_path = os.path.join(current_path, "images")
 
 screen_width = 800
 screen_height = 640
@@ -80,6 +84,25 @@ while running:
         character_y_pos = screen_height - character_height
         bullet_y_pos = screen_height - character_height + (character_height/2) - (bullet_height/2)
 
+    character_rect = character.get_rect()
+    character_rect.left = character_x_pos
+    character_rect.top = character_y_pos
+    
+    enemy_1_rect = enemy_1.get_rect()
+    enemy_1_rect.left = enemy_1_x_pos
+    enemy_1_rect.top = enemy_1_y_pos
+
+    enemy_2_rect = enemy_2.get_rect()
+    enemy_2_rect.left = enemy_2_x_pos
+    enemy_2_rect.top = enemy_2_y_pos
+
+    if character_rect.colliderect(enemy_1_rect):
+        print("충돌!")
+        running = False
+    elif character_rect.colliderect(enemy_2_rect):
+        print("충돌!")
+        running = False
+
     screen.blit(background,(0,0))
     screen.blit(character,(character_x_pos,character_y_pos))
     screen.blit(enemy_1,(enemy_1_x_pos,enemy_1_y_pos))
@@ -88,5 +111,7 @@ while running:
 
 
     pygame.display.update()
+
+pygame.time.delay(3000)
 
 pygame.quit()
