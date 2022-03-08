@@ -3,11 +3,13 @@ import os
 import pygame
 import random
 
+# 초기화
 pygame.init()
 
 current_path = os.path.dirname(__file__)
 image_path = os.path.join(current_path, "images")
 
+# background set
 screen_width = 800
 screen_height = 640
 screen = pygame.display.set_mode((screen_width,screen_height))
@@ -15,6 +17,7 @@ screen = pygame.display.set_mode((screen_width,screen_height))
 pygame.display.set_caption("Shooting_Game")
 background = pygame.image.load("pygame_basic/background.png")
 
+# sprite set
 character = pygame.image.load("pygame_basic/character.png")
 character_size = character.get_rect().size
 character_width = character_size[0]
@@ -40,8 +43,8 @@ bullet = pygame.image.load("pygame_basic/bullet.png")
 bullet_size = bullet.get_rect().size
 bullet_width = bullet_size[0]
 bullet_height = bullet_size[1]
-bullet_x_pos = character_x_pos + character_width
-bullet_y_pos = character_y_pos + (character_height/2) - (bullet_height/2)
+
+bullets =[]
 
 c_to_y = 0
 e_to_x = 0
@@ -52,7 +55,6 @@ enemy_speed = 0.1
 bullet_speed = 1
 
 running = True
-shooting = False
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -66,7 +68,9 @@ while running:
                 c_to_y += character_speed
                 b_to_y += character_speed
             elif event.key == pygame.K_SPACE:
-                shooting = True
+                bullet_x_pos = character_x_pos + character_width
+                bullet_y_pos = character_y_pos + (character_height / 2) - (bullet_height)
+                bullets.append([bullet_x_pos,bullet_y_pos])
 
         if event.type == pygame.KEYUP:
             if pygame.K_UP or pygame.K_DOWN:
@@ -79,10 +83,12 @@ while running:
     enemy_2_x_pos = enemy_2_x_pos - enemy_speed
     if character_y_pos < 0:
         character_y_pos = 0
-        bullet_y_pos = (character_height/2) - (bullet_height/2)
     elif character_y_pos > screen_height - character_height:
         character_y_pos = screen_height - character_height
-        bullet_y_pos = screen_height - character_height + (character_height/2) - (bullet_height/2)
+
+    # bullet position
+    bullets = [[w[0],w[1] - bullet_speed] for w in bullets]
+    bullets = [[w[0],w[1]] for w in bullets if w[0] < 800]
 
     character_rect = character.get_rect()
     character_rect.left = character_x_pos
